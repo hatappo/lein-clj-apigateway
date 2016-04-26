@@ -30,6 +30,6 @@ Then run
 `export` task that will export swagger json of the rest api definition and write to a file.
 And run
 
-    $ lein lambda update production
+    $ lein apigaetway import prod
 
 `import` task that will import swagger json file of the rest api definition and create new rest api.
