@@ -1,10 +1,10 @@
 (ns leiningen.apigateway
   (:require [clojure.java.io :refer [make-parents]])
-  (:import [com.amazonaws.service.apigateway.importer ApiImporterMain]
-           [com.amazonaws.auth DefaultAWSCredentialsProviderChain AWSCredentials]
+  (:import [com.amazonaws.auth DefaultAWSCredentialsProviderChain AWSCredentials]
            [com.amazonaws.services.apigateway.model GetExportRequest GetExportResult ImportRestApiRequest ImportRestApiResult]
            [com.amazonaws.services.apigateway AmazonApiGatewayClient]
            [com.amazonaws.regions Regions]
+           ;[com.amazonaws.service.apigateway.importer ApiImporterMain]
            (java.nio ByteBuffer)))
 
 (defn- usage []
@@ -44,9 +44,9 @@
                                (.withFailOnWarnings true)
                                (.withBody body)))))
 
-(defn- update-rest-api [rest-api-id file region stage]
-  (let [args (into-array ["--update" rest-api-id "--deploy" stage "--region" region file])]
-    (ApiImporterMain/main args)))
+;(defn- update-rest-api [rest-api-id file region stage]
+;  (let [args (into-array ["--update" rest-api-id "--deploy" stage "--region" region file])]
+;    (ApiImporterMain/main args)))
 
 
 (defn apigateway
@@ -58,10 +58,10 @@
       (condp = task
 
         "update" (println "Update is not suported yet.")
-        "update" (doseq [{:keys [rest-api-id region stage]} deployments]
-                   (let [src-file (api-definition-filepath env rest-api-id)]
-                     (update-rest-api rest-api-id src-file region stage))
-                   (println "Updated API" rest-api-id "(" stage ") in" region "is done."))
+        ;"update" (doseq [{:keys [rest-api-id region stage]} deployments]
+        ;           (let [src-file (api-definition-filepath env rest-api-id)]
+        ;             (update-rest-api rest-api-id src-file region stage))
+        ;           (println "Updated API" rest-api-id "(" stage ") in" region "is done."))
 
         "import" (doseq [{:keys [rest-api-id region]} deployments]
                    (let [src-file (api-definition-filepath env rest-api-id)
